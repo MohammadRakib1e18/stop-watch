@@ -1,68 +1,76 @@
+// A simple Stop watch
+
 var interval, clicked=false;
+var pauseDuration, startTime, pauseTime;
+pauseDuration=0;
+startTime=pauseTime=null;
    
+//-----------------------------------Start section----------------------------------------//
 
-var play=document.getElementById("play");
-play.addEventListener('click', delay);
+var start=document.getElementById("start");
+start.addEventListener('click', startClick);
 
-
-function delay(){
+function startClick(){
     if(clicked==false){
         clicked=true;
-        interval=setInterval(runWatch, 1000);
+        if(startTime==null){
+            startTime=new Date();
+    
+        }
+        if(pauseTime!=null){
+            pauseDuration += (new Date() - pauseTime); 
+        }
+        interval=setInterval(runWatch, 0);
     }
 }
 
 function runWatch(){
     
-    var timePart, curr, next, len=5;
-    curr=next=0;
+    var currTime=new Date();
+    var currDuration = new Date(currTime-startTime-pauseDuration);
+
+    var h=currDuration.getUTCHours();
+    var m=currDuration.getUTCMinutes();
+    var s=currDuration.getUTCSeconds();
+    var ms=currDuration.getUTCMilliseconds();
 
     timePart=document.getElementsByClassName("time-part");
+    var output="";
 
-    curr=parseInt(timePart[len-1].innerText)+1;
-    if(curr==10) {curr=0;next=1;}
-    timePart[len-1].innerText=curr;
-
-    curr=parseInt(timePart[len-2].innerText)+next;
-    next=0;
-    if(curr==6) {curr=0;next=1;}
-    timePart[len-2].innerText=curr;
-
-    curr=parseInt(timePart[len-3].innerText)+next;
-    next=0;
-    if(curr==10) {curr=0;next=1;}
-    timePart[len-3].innerText=curr;
-
-    curr=parseInt(timePart[len-4].innerText)+next;
-    next=0;
-    if(curr==6) {curr=0;next=1;}
-    timePart[len-4].innerText=curr;
-
-    curr=parseInt(timePart[len-5].innerText)+next;
-    timePart[len-5].innerText=curr;
+    (h>9)?(output=h):(output="0"+h); timePart[0].innerText=output;
+    (m>9)?(output=m):(output="0"+m); timePart[1].innerText=output;
+    (s>9)?(output=s):(output="0"+s); timePart[2].innerText=output;
+    (ms>99)?(output=ms):((ms>9)?(output="0"+ms):(output="00"+ms));
+    timePart[3].innerText=output;
 }
 
-//-----------------------------------------------------------------------------------------//
+//-----------------------------------Pause section----------------------------------------//
 
 var pause = document.getElementById("pause");
 pause.addEventListener("click", makePause);
 
 function makePause(){
+    if(startTime!=null) pauseTime=new Date();
     clearInterval(interval);
     clicked=false;
 }
 
-//-----------------------------------------------------------------------------------------//
+//------------------------------------Reset section--------------------------------------//
 
 var reset = document.getElementById("reset");
 reset.addEventListener("click", makeReset);
 
 function makeReset(){
+    
     clicked=false;
     var timePart = document.getElementsByClassName("time-part");
-    for(var i=0; i<5; i++){
-        timePart[i].innerText='0';
-    }
-}
+    timePart[0].innerText="00";
+    timePart[1].innerText="00";
+    timePart[2].innerText="00";
+    timePart[3].innerText="000";
 
-reset.addEventListener("click", makePause);
+    clearInterval(interval);
+
+    pauseDuration=0;
+    startTime=pauseTime=null;
+}

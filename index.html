@@ -7,21 +7,38 @@
     <title>Stop Watch</title>
 
     <link rel="stylesheet" href="try.css">
+    <link rel="shortcut icon" href="stop-watch2.jpg" type="image/x-icon">
+        
 </head>
 <body>
     <h1>Stop watch</h1>
     <div class="container">
-        <span class="time-part">0</span>
-        <span>:</span>
-        <span class="time-part">0</span>
-        <span class="time-part">0</span>
-        <span>:</span>
-        <span class="time-part">0</span>
-        <span class="time-part">0</span>
+        <!-- <p id="time-part">00:00:00:000</p> -->
+        <div class="time-part-box box">
+            <p class="time-part">00</p>
+        </div>
+        <div class="time-part-box sem">
+            <p>:</p>
+        </div>
+        <div class="time-part-box box">
+            <p class="time-part">00</p>
+        </div>
+        <div class="time-part-box sem">
+            <p>:</p>
+        </div>
+        <div class="time-part-box box">
+            <p class="time-part">00</p>
+        </div>
+        <div class="time-part-box sem">
+            <p>:</p>
+        </div>
+        <div class="time-part-box box" style="width: 110px;">
+            <p class="time-part">000</p>
+        </div>
     </div>
     <div class="click">
         <button class="button" id="pause">PAUSE</button>
-        <button class="button" id="play">PLAY</button>
+        <button class="button" id="start">START</button>
         <button class="button" id="reset">RESET</button>
     </div>
 
